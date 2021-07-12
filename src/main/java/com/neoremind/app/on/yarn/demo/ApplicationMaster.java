@@ -193,7 +193,7 @@ public class ApplicationMaster {
     private ByteBuffer allTokens;
 
     // Launch threads
-    private List<Thread> launchThreads = new ArrayList<Thread>();
+    private List<Thread> launchThreads = new ArrayList<>();
 
     private ConcurrentHashMap<ContainerId, Container> runningContainers = new ConcurrentHashMap<>();
 

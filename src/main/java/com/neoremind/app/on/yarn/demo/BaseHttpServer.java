@@ -13,9 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.BindException;
 
 /**
@@ -77,12 +75,10 @@ public abstract class BaseHttpServer implements Closeable {
      */
     public static class StackServlet extends HttpServlet {
         @Override
-        public void doGet(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
-            try (PrintWriter out = new PrintWriter(
+        public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+            try (PrintStream out = new PrintStream(
                     HtmlQuoting.quoteOutputStream(response.getOutputStream()))) {
                 ReflectionUtils.printThreadInfo(out, "");
-                out.close();
             }
             ReflectionUtils.logThreadInfo(LOG, "jsp requested", 1);
         }

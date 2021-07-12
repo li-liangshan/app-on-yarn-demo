@@ -194,9 +194,7 @@ public class Client {
     /**
      */
     public Client(Configuration conf) throws Exception {
-        this(
-                "com.neoremind.app.on.yarn.demo.ApplicationMaster",
-                conf);
+        this("com.neoremind.app.on.yarn.demo.ApplicationMaster", conf);
     }
 
     Client(String appMasterMainClass, Configuration conf) {
@@ -376,8 +374,7 @@ public class Client {
         LOG.info("Got Cluster metric info from ASM"
                 + ", numNodeManagers=" + clusterMetrics.getNumNodeManagers());
 
-        List<NodeReport> clusterNodeReports = yarnClient.getNodeReports(
-                NodeState.RUNNING);
+        List<NodeReport> clusterNodeReports = yarnClient.getNodeReports(NodeState.RUNNING);
         LOG.info("Got Cluster node info from ASM");
         for (NodeReport node : clusterNodeReports) {
             LOG.info("Got node report from ASM for"
@@ -531,7 +528,7 @@ public class Client {
         vargs.add("1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/AppMaster.stdout");
         vargs.add("2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/AppMaster.stderr");
 
-        // Get final commmand
+        // Get final command
         StringBuilder command = new StringBuilder();
         for (CharSequence str : vargs) {
             command.append(str).append(" ");
@@ -561,13 +558,11 @@ public class Client {
             Credentials credentials = new Credentials();
             String tokenRenewer = conf.get(YarnConfiguration.RM_PRINCIPAL);
             if (tokenRenewer == null || tokenRenewer.length() == 0) {
-                throw new IOException(
-                        "Can't get Master Kerberos principal for the RM to use as renewer");
+                throw new IOException("Can't get Master Kerberos principal for the RM to use as renewer");
             }
 
             // For now, only getting tokens for the default file-system.
-            final Token<?>[] tokens =
-                    fs.addDelegationTokens(tokenRenewer, credentials);
+            final Token<?>[] tokens = fs.addDelegationTokens(tokenRenewer, credentials);
             if (tokens != null) {
                 for (Token<?> token : tokens) {
                     LOG.info("Got dt for " + fs.getUri() + "; " + token);
@@ -615,8 +610,7 @@ public class Client {
      * @throws YarnException
      * @throws IOException
      */
-    private boolean monitorApplication(ApplicationId appId)
-            throws YarnException, IOException {
+    private boolean monitorApplication(ApplicationId appId) throws YarnException, IOException {
 
         while (true) {
 
@@ -655,8 +649,7 @@ public class Client {
                             + ". Breaking monitoring loop");
                     return false;
                 }
-            } else if (YarnApplicationState.KILLED == state
-                    || YarnApplicationState.FAILED == state) {
+            } else if (YarnApplicationState.KILLED == state || YarnApplicationState.FAILED == state) {
                 LOG.info("Application did not finish."
                         + " YarnState=" + state.toString() + ", DSFinalStatus=" + dsStatus.toString()
                         + ". Breaking monitoring loop");
